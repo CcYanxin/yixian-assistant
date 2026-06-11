@@ -5,7 +5,7 @@
 SET NAMES utf8mb4;
 USE yixian;
 
--- ======================== 1. 用户与组织（1号：郑子吟） ========================
+-- ======================== 1. 用户与组织（1号） ========================
 
 CREATE TABLE IF NOT EXISTS sys_dept (
   id          BIGINT       PRIMARY KEY AUTO_INCREMENT,
@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS sys_user (
   is_deleted    TINYINT      DEFAULT 0
 );
 
--- ======================== 2. 申请与审批（2号：程言欣） ========================
+-- ======================== 2. 申请与审批（2号） ========================
 
 CREATE TABLE IF NOT EXISTS application (
   id            BIGINT       PRIMARY KEY AUTO_INCREMENT,
@@ -62,7 +62,7 @@ CREATE TABLE IF NOT EXISTS approval_record (
   create_time    DATETIME    DEFAULT CURRENT_TIMESTAMP
 );
 
--- ======================== 3. 任务与派单（4号：戈世奇） ========================
+-- ======================== 3. 任务与派单（4号） ========================
 
 CREATE TABLE IF NOT EXISTS task (
   id                   BIGINT       PRIMARY KEY AUTO_INCREMENT,
@@ -106,7 +106,7 @@ CREATE TABLE IF NOT EXISTS task_feedback (
   create_time      DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
--- ======================== 4. 文件附件（4号：戈世奇） ========================
+-- ======================== 4. 文件附件（4号） ========================
 
 CREATE TABLE IF NOT EXISTS file_attachment (
   id            BIGINT       PRIMARY KEY AUTO_INCREMENT,
@@ -120,7 +120,7 @@ CREATE TABLE IF NOT EXISTS file_attachment (
   create_time   DATETIME     DEFAULT CURRENT_TIMESTAMP
 );
 
--- ======================== 5. 拜访与商机（3号：娄登科 / 5号：王默涵） ========================
+-- ======================== 5. 拜访与商机（3号 / 5号） ========================
 
 CREATE TABLE IF NOT EXISTS customer (
   id            BIGINT       PRIMARY KEY AUTO_INCREMENT,
@@ -162,7 +162,7 @@ CREATE TABLE IF NOT EXISTS opportunity (
   is_deleted          TINYINT     DEFAULT 0
 );
 
--- ======================== 6. 系统与AI（6号：蒋子涵） ========================
+-- ======================== 6. 系统与AI（6号） ========================
 
 CREATE TABLE IF NOT EXISTS skill (
   id          BIGINT       PRIMARY KEY AUTO_INCREMENT,

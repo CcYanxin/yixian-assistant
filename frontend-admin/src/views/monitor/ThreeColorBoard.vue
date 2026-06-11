@@ -1,7 +1,7 @@
 <template>
   <div>
     <a-typography-title :level="4">三色晾晒看板</a-typography-title>
-    <a-alert message="5号（王默涵）负责实现此模块" type="info" show-icon style="margin-bottom:16px"/>
+    <a-alert message="5号负责实现此模块" type="info" show-icon style="margin-bottom:16px"/>
     <a-row :gutter="16" style="margin-bottom:16px">
       <a-col :span="6"><a-card><a-statistic title="🔴 超时任务" :value="0" value-style="{color:'#f5222d'}"/></a-card></a-col>
       <a-col :span="6"><a-card><a-statistic title="🟡 临期任务" :value="0" value-style="{color:'#faad14'}"/></a-card></a-col>
