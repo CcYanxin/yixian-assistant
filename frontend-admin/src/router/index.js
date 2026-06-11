@@ -1,56 +1,47 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { useAuthStore } from '@/stores/auth'
+import { session } from '../services/session'
+import AdminLayout from '../layouts/AdminLayout.vue'
 
-const routes = [
-  {
-    path: '/login',
-    component: () => import('@/views/Login.vue'),
-    meta: { public: true }
-  },
-  {
-    path: '/',
-    component: () => import('@/layouts/MainLayout.vue'),
-    redirect: '/dashboard',
-    children: [
-      // 首页
-      { path: 'dashboard', component: () => import('@/views/Dashboard.vue'), meta: { title: '首页' } },
-
-      // 2号：审批中心
-      { path: 'approval', component: () => import('@/views/approval/ApprovalList.vue'), meta: { title: '审批中心' } },
-      { path: 'approval/:id', component: () => import('@/views/approval/ApprovalDetail.vue'), meta: { title: '审批详情' } },
-
-      // 4号：派单中心 / 人员技能
-      { path: 'dispatch', component: () => import('@/views/dispatch/DispatchList.vue'), meta: { title: '派单中心' } },
-      { path: 'users',    component: () => import('@/views/users/UserList.vue'),        meta: { title: '人员管理' } },
-
-      // 5号：任务监控 / 统计看板
-      { path: 'monitor',  component: () => import('@/views/monitor/ThreeColorBoard.vue'), meta: { title: '三色看板' } },
-      { path: 'stats/maintenance', component: () => import('@/views/stats/MaintenanceStats.vue'), meta: { title: '装维统计' } },
-      { path: 'stats/visit',       component: () => import('@/views/stats/VisitStats.vue'),       meta: { title: '拜访商机统计' } },
-
-      // 6号：系统设置 / AI智脑
-      { path: 'system/dict',  component: () => import('@/views/system/DictManage.vue'),  meta: { title: '字典管理' } },
-      { path: 'system/skill', component: () => import('@/views/system/SkillManage.vue'), meta: { title: '技能标签' } },
-      { path: 'system/log',   component: () => import('@/views/system/OperationLog.vue'),meta: { title: '操作日志' } },
-    ]
-  },
-  { path: '/:pathMatch(.*)*', redirect: '/' }
-]
+const LoginView = () => import('../views/LoginView.vue')
+const WorkbenchView = () => import('../views/WorkbenchView.vue')
+const ApprovalsView = () => import('../views/ApprovalsView.vue')
+const PeopleView = () => import('../views/PeopleView.vue')
+const DispatchView = () => import('../views/DispatchView.vue')
+const MonitorView = () => import('../views/MonitorView.vue')
+const EfficiencyView = () => import('../views/EfficiencyView.vue')
+const BusinessView = () => import('../views/BusinessView.vue')
+const SettingsView = () => import('../views/SettingsView.vue')
 
 const router = createRouter({
   history: createWebHistory(),
-  routes
+  routes: [
+    { path: '/login', name: 'login', component: LoginView, meta: { public: true } },
+    {
+      path: '/',
+      component: AdminLayout,
+      redirect: '/workbench',
+      children: [
+        { path: 'workbench', name: 'workbench', component: WorkbenchView, meta: { title: '运营工作台' } },
+        { path: 'approvals', name: 'approvals', component: ApprovalsView, meta: { title: '审批中心' } },
+        { path: 'people', name: 'people', component: PeopleView, meta: { title: '人员与技能' } },
+        { path: 'dispatch', name: 'dispatch', component: DispatchView, meta: { title: '任务派单' } },
+        { path: 'monitor', name: 'monitor', component: MonitorView, meta: { title: '任务监控' } },
+        { path: 'efficiency', name: 'efficiency', component: EfficiencyView, meta: { title: '装维效率' } },
+        { path: 'business', name: 'business', component: BusinessView, meta: { title: '拜访与商机' } },
+        { path: 'settings', name: 'settings', component: SettingsView, meta: { title: '系统设置', superOnly: true } },
+      ],
+    },
+    { path: '/:pathMatch(.*)*', redirect: '/' },
+  ],
 })
 
-// 全局导航守卫
 router.beforeEach((to) => {
-  const auth = useAuthStore()
-  if (!to.meta.public && !auth.isLoggedIn()) {
-    return '/login'
+  if (!to.meta.public && !session.user) {
+    return { name: 'login', query: { redirect: to.fullPath } }
   }
-  if (to.path === '/login' && auth.isLoggedIn()) {
-    return '/'
-  }
+  if (to.name === 'login' && session.user) return { name: 'workbench' }
+  if (to.meta.superOnly && session.user?.roleCode !== 'SUPER_ADMIN') return { name: 'workbench' }
+  return true
 })
 
 export default router
