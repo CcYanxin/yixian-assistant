@@ -4,8 +4,8 @@ server:
 spring:
   datasource:
     url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:yixian}?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
-    username: ${DB_USER:zhiwei}
-    password: ${DB_PASSWORD:zhiwei123}
+    username: ${DB_USER:yixian}
+    password: ${DB_PASSWORD:yixian123}
     driver-class-name: com.mysql.cj.jdbc.Driver
   servlet:
     multipart:
